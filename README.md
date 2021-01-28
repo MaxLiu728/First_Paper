@@ -1,2 +1,2 @@
 # First_Paper
-All things in my first paper
+The first paper for INF2178
