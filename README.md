@@ -1,2 +1,2 @@
 # First_Paper
-The first paper for INF2178
+This study aims to explore the associations between number of issued marriage licenses in city of toronto and the month marriage registered.Our data is from @Datasource, collecting marriage licenses information from four major civic centres in the city of toronto. (Our analysis employed one way ANOVA approach). The findings showed couples in city of Toronto prefer to get married in the summer time, which did not differ across the type of civic centres. Our findings might can back up the city's operational requirements and guide some business transactions, which are corresponding with the publisher's intentions.

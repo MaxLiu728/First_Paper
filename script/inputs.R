@@ -13,6 +13,7 @@
 #### Workspace setup ####
 library(tidyverse)
 library(ggplot2)
+library(readr)
 library(opendatatoronto)
 # Read in the raw data.
 raw_data <- search_packages("Marriage Licence") %>%

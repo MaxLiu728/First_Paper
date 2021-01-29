@@ -16,6 +16,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(ggplot2)
+library(readr)
+library(dplyr)
 ```
 
 # Introduction
@@ -23,6 +25,51 @@ library(ggplot2)
 
 
 # Data
+```{r}
+raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv")
+```
+
+```{r}
+# Explore how many marriage licences issued by each civic centre on average among the 10 years.
+Df1<- raw_data %>%
+  group_by(CIVIC_CENTRE) %>%
+  summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
+Df1<- knitr::kable(Df1, format='simple')
+Df1
+
+
+
+# Explore how many marriage licences issued by each civic centre on average in each year
+Df2<- raw_data %>%
+  group_by(CIVIC_CENTRE, year) %>%
+  summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
+Df2<- knitr::kable(Df2, format='simple')
+Df2
+```
+
+```{r}
+#Explore the popular months people choose to get marriage licences
+Df_Month<- raw_data %>%
+  group_by(CIVIC_CENTRE, month) %>%
+  summarise(Avg_licences= round(mean(MARRIAGE_LICENSES)))
+  
+# Create table for visualization
+
+Df2_1<- raw_data %>%
+  group_by(CIVIC_CENTRE, year) %>%
+  summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
+
+
+p1<- ggplot(data= as.data.frame(Df2_1))+geom_line(aes(x= year, y= mean_value, color= CIVIC_CENTRE))
+
+p2<- ggplot(data= as.data.frame(Df_Month))+geom_point(aes(x=month, y= Avg_licences, color=CIVIC_CENTRE))
+
+
+```
+
+```{r}
+dput(raw_data)
+```
 
 
 # Model
@@ -33,13 +80,20 @@ library(ggplot2)
 # Discussion
 
 
+
 ## First discussion point
+People prefer to get married in summer.
 
+## Second discussion point
+The issued marriage licences did differ cross the type of civic centre; 
+TO was the most popular civic centre before 2018, but the number of issued marriage licences experienced a dramartic decrease after that, more people begun to choose  NY and SC
 ## Weakness and next steps
-
+I am curious the what factors affect people's choice on civic centre, like distance/ area/... 
+I am also curious about why people prefer to get married in summer, I plan to have one-to-one talk with several people, to get more insights.
 
 
 # Appendix {-}
 
 
 # References
+
