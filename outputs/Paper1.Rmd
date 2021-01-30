@@ -13,6 +13,7 @@ bibliography: references.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(bookdown)
 library(opendatatoronto)
 library(tidyverse)
 library(ggplot2)
