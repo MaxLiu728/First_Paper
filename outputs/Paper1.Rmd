@@ -31,29 +31,58 @@ The remainder of the paper will focus on the question I have pointed out, includ
 
 
 # Data
-```{r}
+This study will perform an analysis of data from [@datasource], which is monthly refreshed by the city clerk's office in Toronto. I selected the data from three categories: the code of civic centre, number of marriage licenses, month and year marriage registered. 
+
+The limited ranges of civic centres may cause bias the selected data hardly represent the whole group of couples in the city of Toronto, it might only reflect a small group's preferences on the choice of time to register marriage. 
+
+```{r, include=FALSE}
 raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv") #Read the raw data, which has been tidied in my r script.
 ```
 
-```{r}
-# Explore how many marriage licenses issued by each civic centre on average among the 10 years.
-Df1<- raw_data %>%
+
+## Average issued marriage licenses in each civic centre
+```{r Table_1, echo=FALSE}
+# Separate the data set with types of civic centre
+Df_kable<- raw_data %>%
   group_by(CIVIC_CENTRE) %>%
-  summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
-```
+  summarise(Average_issued_licnenses= round(mean(MARRIAGE_LICENSES)))
 
-```{r Table_1,}
-Df1<- knitr::kable(Df1, format='simple', caption = "The average number of issued marriage licenses in each civic centre")
+Df_kable<- knitr::kable(Df_kable, 
+                   format='pipe', 
+                   caption = "Average number of issued marriage licenses",
+                   col.names = c('Civic_centre', 'Issued_marriage_licenses'),
+                   align = 'lccrrr')
+Df_kable
 ```
-
 
 ```{r}
-# Explore how many marriage licences issued by each civic centre on average in each year
-Df2<- raw_data %>%
+
+```
+
+
+
+## Yearly change of average issued marriage licenses in each civic centre, from 2011 to 2021
+```{r Figure_1, fig.cap="Yearly change", echo=FALSE, warning=FALSE}
+# Prepare the dataframe for visualization
+Df_fig_1<- raw_data %>%
   group_by(CIVIC_CENTRE, year) %>%
-  summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
-Df2<- knitr::kable(Df2, format='simple')
-Df2
+  summarise(Average_issued_licenses= round(mean(MARRIAGE_LICENSES)))
+
+p1<- ggplot(data= as.data.frame(Df_fig_1),
+            aes(x= year, 
+               y= Average_issued_licenses, 
+               fill= CIVIC_CENTRE),)+
+  geom_col( position = "dodge",
+           show.legend = TRUE)+
+  labs(x= "Year",
+       y= "Average number of marriage licenses",
+       fill="Civic centre",
+       title = "Yearly change of average number of marriage licenses issued in each civic centre",
+       caption = "Source: opendatatoronto."
+  )+
+  scale_x_discrete(labels=c("2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"))
+
+p1
 ```
 
 ```{r}
@@ -61,16 +90,18 @@ Df2
 Df_Month<- raw_data %>%
   group_by(CIVIC_CENTRE, month) %>%
   summarise(Avg_licences= round(mean(MARRIAGE_LICENSES)))
+```
+
   
 # Create table for visualization
-
+```{r}
 Df2_1<- raw_data %>%
   group_by(CIVIC_CENTRE, year) %>%
   summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
 ```
 
 ```{r Figure_1,  fig.cap="Yearly change", echo=FALSE}
-p1<- ggplot(data= as.data.frame(Df2_1))+geom_line(aes(x= year, y= mean_value, color= CIVIC_CENTRE))
+
 ```
 
 ```{r Figure_2, fig.cap="Monthly change", echo=FALSE}
