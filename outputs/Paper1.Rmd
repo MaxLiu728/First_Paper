@@ -5,7 +5,7 @@ author: "Renjing Liu"
 thanks: "Code and data are available at: https://github.com/MaxLiu728/First_Paper.git"
 date: "2021/1/28"
 output: html_document
-abstract:
+abstract: "This study aims to explore the associations between number of issued marriage licenses in city of toronto and the month marriage registered.Our data is from open data toronto[@datasource], collecting marriage licenses information from four major civic centres in the city of toronto. From the analysis, we find all feedback from the civic centres showed couples in city of Toronto prefer to registor for their marriage in the summer time. Our findings can back up the city's operational requirements and guide some business functions, to meet the intentions of the publisher for this data set"
 output: ###
 toc: ###
 bibliography: references.bib
@@ -13,7 +13,7 @@ bibliography: references.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
+library(opendatatoronto)
 library(tidyverse)
 library(ggplot2)
 library(readr)
@@ -21,24 +21,33 @@ library(dplyr)
 ```
 
 # Introduction
+A marriage license is a legal document obtained by a couple prior to their marriage[Define ]. For nearly all couples, it is absolutely a big day when they legally registered their marriage, after which they will consider holding their ceremony and the wedding. As a result, the choice of the registered date must be extremely significant and seriously considered, which will normally be memorized and celebrated every year and affect the schedule of their weddings afterwards. Each couple usually have their unique option to set the date, for example, some of them prefer to register their marriage in one of their birthdays. 
 
+However, I am curious with do they have a general preference on the season to register for their marriage? If so, what factors drive the months become popular? According to [popular], we assume summertime should be the most popular months, as the report has turned out most of couples are more likely to hold their weddings in the fall. 
+
+I believe my findings can give some insightful implications for the future work of civic centres. Based on that, centres can adjust their internal operations in different months, to either satisfy the need of registering marriage licenses or avoid the waste of workforce.
+
+The remainder of the paper will focus on the question I have pointed out, including the descriptions for my data set and the discussion for my results. 
 
 
 # Data
 ```{r}
-raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv")
+raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv") #Read the raw data, which has been tidied in my r script.
 ```
 
 ```{r}
-# Explore how many marriage licences issued by each civic centre on average among the 10 years.
+# Explore how many marriage licenses issued by each civic centre on average among the 10 years.
 Df1<- raw_data %>%
   group_by(CIVIC_CENTRE) %>%
   summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
-Df1<- knitr::kable(Df1, format='simple')
-Df1
+```
+
+```{r Table_1,}
+Df1<- knitr::kable(Df1, format='simple', caption = "The average number of issued marriage licenses in each civic centre")
+```
 
 
-
+```{r}
 # Explore how many marriage licences issued by each civic centre on average in each year
 Df2<- raw_data %>%
   group_by(CIVIC_CENTRE, year) %>%
@@ -58,13 +67,14 @@ Df_Month<- raw_data %>%
 Df2_1<- raw_data %>%
   group_by(CIVIC_CENTRE, year) %>%
   summarise(mean_value= round(mean(MARRIAGE_LICENSES)))
+```
 
-
+```{r Figure_1,  fig.cap="Yearly change", echo=FALSE}
 p1<- ggplot(data= as.data.frame(Df2_1))+geom_line(aes(x= year, y= mean_value, color= CIVIC_CENTRE))
+```
 
+```{r Figure_2, fig.cap="Monthly change", echo=FALSE}
 p2<- ggplot(data= as.data.frame(Df_Month))+geom_point(aes(x=month, y= Avg_licences, color=CIVIC_CENTRE))
-
-
 ```
 
 ```{r}

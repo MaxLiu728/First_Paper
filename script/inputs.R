@@ -3,7 +3,7 @@
 # Author: Renjing Liu
 # Date: 28 January 2021
 # Contact: renjing.liu@mail.utoronto.ca
-# License: MIT
+# License: Open Government License-Toronto
 # Todos:
 # - Need to have downloaded the data and saved it to inputs
 # - Need to remove ID column
