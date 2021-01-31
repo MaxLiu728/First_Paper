@@ -4,10 +4,10 @@ subtitle:
 author: "Renjing Liu"
 thanks: "Code and data are available at: https://github.com/MaxLiu728/First_Paper.git"
 date: "2021/1/28"
-abstract: "This study aims to explore the associations between number of issued marriage licenses in city of toronto and the month marriage registered.Our data is from open data toronto[@datasource], collecting marriage licenses information from four major civic centres in the city of toronto. After the analysis, I find all feedback from the civic centres showed couples in city of Toronto prefer to registor for their marriage in the summer time. Our findings can back up the city's operational requirements and guide some business functions, to meet the intentions of the publisher for this data set"
+abstract: "This study aims to compare the number of issued marriage licenses in each civic centre of city of Toronto.I get the data from opendatatoronto[@datasource]. After the analysis, I find the result showed couples in city of Toronto preferred to registor for their marriage in the summer time. My findings can back up the city's operational requirements and guide some business functions, to meet the intentions of the publisher for this data set."
 output:
-  bookdown::pdf_book:
-toc: FALSE
+  bookdown::pdf_document2:
+toc: False
 bibliography: references.bib
 ---
 
@@ -20,15 +20,18 @@ library(ggplot2)
 library(readr)
 library(dplyr)
 library(tinytex)
-tinytex::install_tinytex()
+library(kableExtra)
+#tinytex::install_tinytex()
 ```
 
+\newpage
+
 # Introduction
-A marriage license is a legal document obtained by a couple prior to their marriage[@Define]. For nearly all couples, it is absolutely a big day when they legally registered their marriage, after which they will consider holding their ceremony and the wedding. As a result, the choice of the registered date must be extremely significant and seriously considered, which will normally be memorized and celebrated every year and affect the schedule of their weddings afterwards. Each couple usually have their unique option to set the date, for example, some of them prefer to register their marriage in one of their birthdays. 
+A marriage license is a legal document obtained by a couple prior to their marriage[@Define]. For nearly all couples, it is absolutely a big day when they legally registered their marriage, after which they will consider holding their ceremony and the wedding. As a result, the choice of the registered date must be extremely significant and seriously considered, which will usually be memorized and celebrated every year. Each couple usually have their unique option to set the date, for example, some of them prefer to register their marriage in one of their birthdays. 
 
-However, I am curious with do they have a general preference on the season to register for their marriage? If so, what factors drive the months become popular? According to [@Popular], we assume summertime should be the most popular months, as the report has turned out most of couples are more likely to hold their weddings in the fall. 
+However, I am curious with do they have a general preference on the season to register for their marriage? If so, what factors drive that season become popular? According to [@Popular], we assume summertime should be the most popular months, as the report has turned out most of couples are more likely to hold their weddings in the fall. 
 
-I believe my findings can give some insightful implications for the future work of civic centres. Based on that, centres can adjust their internal operations in different months, to either satisfy the need of registering marriage licenses or avoid the waste of workforce.
+I believe my findings can give some insightful implications for the future work in civic centres. Based on that, centres can adjust their internal operation plans in different months, to either satisfy the need of registering marriage licenses or avoid the waste of workforce.
 
 The remainder of the paper will focus on the question I have pointed out, including the descriptions for my data set and the discussions for my results. 
 
@@ -36,7 +39,7 @@ The remainder of the paper will focus on the question I have pointed out, includ
 # Data
 This study will perform an analysis of data from [@datasource], which is monthly refreshed by the city clerk's office in Toronto. I selected the data from three categories: the code of civic centre, number of marriage licenses, month and year marriage registered. 
 
-The limited ranges of civic centres may cause bias that the selected data hardly represent the whole group of couples in the city of Toronto, it might only reflect a small group's preferences on the choice of time to register marriage. 
+The limited ranges of civic centres may cause bias that the data may hardly represent the population(All couples in the city of Toronto), it might only reflect a small group's preferences on the choice of time to register for their marriage. 
 
 ```{r, include=FALSE}
 raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv") #Read the raw data, which has been tidied in my r script.
@@ -44,9 +47,9 @@ raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv")
 
 
 ## Average issued marriage licenses in each civic centre
-Table \@ref(tab:Table_1) is completed by the use of[@dplyr], it compares the number of marriage licenses among four civic centres. 
+Table \@ref(tab:Table_1)) is used by dplyr package [@dplyr], it compares the number of marriage licenses among four civic centres. 
 
-```{r Table_1, echo=FALSE}
+```{r Table_1, echo=FALSE, message= FALSE}
 # Separate the data set with types of civic centre
 Df_kable<- raw_data %>%
   group_by(CIVIC_CENTRE) %>%
@@ -55,15 +58,17 @@ Df_kable<- raw_data %>%
 Df_kable<- knitr::kable(Df_kable, 
                    format='pipe', 
                    caption = "Average number of issued marriage licenses",
-                   col.names = c('Civic_centre', 'Issued_marriage_licenses'),
+                   col.names = c('Civic_centre', 'Avg_marriage_licenses'),
                    align = 'lccrrr')
+
 Df_kable
 ```
 
 
 ## Yearly change of average issued marriage licenses in each civic centre, from 2011 to 2021.
-See Figure \@ref(fig:Figure_1), which is built on [@ggplot]. The graph visually shows the relationships among year, civic centres and number of marriage licenses in the data set. 
-```{r Figure_1, fig.cap="Yearly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, error=FALSE}
+See Figure \@ref(fig:Figure_1), which is built on ggplot2 package [@ggplot]. The graph shows the relationships among year, civic centres and the number of marriage licenses in the data set. 
+
+```{r Figure_1, fig.cap="Yearly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
 # Prepare the dataframe for visualization
 Df_fig_1<- raw_data %>%
   group_by(CIVIC_CENTRE, year) %>%
@@ -84,9 +89,11 @@ p1<- ggplot(data= as.data.frame(Df_fig_1),
 
 p1
 ```
+
 ## Monthly change of average issued marriage licenses in each civic centre, from 2011 to 2021.
-Let's move to Figure \@ref(fig:Figure2), which is drawn by using [@ggplot]. It analyzes whether the number of issued marriage licenses differed across different months, from 2011 to 2021.  
-```{r Figure_2, fig.cap="Monthly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, error=FALSE}
+Let's move to Figure \@ref(tab:Figure_2)), which is drawn by using ggplot2 package [@ggplot]. It analyzes whether the number of issued marriage licenses differed across different months, from 2011 to 2021.
+
+```{r Figure_2, fig.cap="\\label{fig:Figure_2}Monthly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
 #Explore the most popular months people choose to register for marriage licenses
 Df_Month<- raw_data %>%
   group_by(CIVIC_CENTRE, month) %>%
@@ -104,12 +111,14 @@ p2<- ggplot(data= as.data.frame(Df_Month))+
 
 p2
 ```
+
 # Result
-Table \@ref(tab:Table_1) illustrates four civic centres had remarkable differences in the number of marriage license. Compared with other centres, TO centre generally had a busier business. 
 
-From the figure \@ref(fig:Figure_1), in the past 10 years, the number of marriage license issued by each civic centre did not differ across years. The TO centre issued more than nearly 600 marriage licenses on average per year, with other centres holding a significantly smaller level.
+From table \@ref(tab:Table_1). The table illustrates four civic centres had remarkable differences in the number of marriage license. Compared with other centres, TO centre was relatively more busier. 
 
-On the basis of figure \@ref(fig:Figure2), four civic centres all reported that July and August were the most popular months for couples to register marriage. Couples might be less enthusiastic to get marriage licenses in the winter time.  
+From figure \@ref(fig:Figure_1). In the past 10 years, the number of marriage license issued by each civic centre did not differ across years. The TO centre issued more than nearly 600 marriage licenses on average per year, with other centres holding a significantly smaller level.
+
+From figure \@ref(fig:Figure_2). Four civic centres all reported that July and August were the most popular months for couples to register marriage. Couples might be less enthusiastic to get marriage licenses in the winter time.  
 
 # Discussion
 
@@ -122,10 +131,6 @@ For the City Clerk's Office, the publisher of the data set [@datasource] in this
 The data set of my study might have some bias that it may can not represent the whole group of couples in the city of Toronto or in the world, it might only reflect a small group's preferences on the choice of time to register marriage. Moreover, the data set do not have features to help analyze the factors driving them to choose the time of getting marriage licenses. 
 
 In the next step, I plan to approach interview method to ask some couples about what factors affect them choosing the date to get married. I believe it will fully supplement with my findings in this paper.
-
-\newpage
-
-# Appendix {-}
 
 \newpage
 
