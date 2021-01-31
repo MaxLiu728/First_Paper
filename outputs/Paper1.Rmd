@@ -47,7 +47,12 @@ raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv")
 
 
 ## Average issued marriage licenses in each civic centre
-Table \@ref(tab:Table_1)) is used by dplyr package [@dplyr], it compares the number of marriage licenses among four civic centres. 
+
+Table 
+
+\@ref(tab:Table_1)
+
+is used by dplyr package [@dplyr], it compares the number of marriage licenses among four civic centres. 
 
 ```{r Table_1, echo=FALSE, message= FALSE}
 # Separate the data set with types of civic centre
@@ -66,7 +71,12 @@ Df_kable
 
 
 ## Yearly change of average issued marriage licenses in each civic centre, from 2011 to 2021.
-See Figure \@ref(fig:Figure_1), which is built on ggplot2 package [@ggplot]. The graph shows the relationships among year, civic centres and the number of marriage licenses in the data set. 
+
+See 
+
+(Figure \@ref(fig:Figure_1))
+
+which is built on ggplot2 package [@ggplot]. The graph shows the relationships among year, civic centres and the number of marriage licenses in the data set. 
 
 ```{r Figure_1, fig.cap="Yearly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
 # Prepare the dataframe for visualization
@@ -91,7 +101,12 @@ p1
 ```
 
 ## Monthly change of average issued marriage licenses in each civic centre, from 2011 to 2021.
-Let's move to Figure \@ref(tab:Figure_2)), which is drawn by using ggplot2 package [@ggplot]. It analyzes whether the number of issued marriage licenses differed across different months, from 2011 to 2021.
+
+Let's move to
+
+(Figure \@ref(tab:Figure_2)) 
+
+which is drawn by using ggplot2 package [@ggplot]. It analyzes whether the number of issued marriage licenses differed across different months, from 2011 to 2021.
 
 ```{r Figure_2, fig.cap="\\label{fig:Figure_2}Monthly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
 #Explore the most popular months people choose to register for marriage licenses
@@ -114,11 +129,23 @@ p2
 
 # Result
 
-From table \@ref(tab:Table_1). The table illustrates four civic centres had remarkable differences in the number of marriage license. Compared with other centres, TO centre was relatively more busier. 
+From 
 
-From figure \@ref(fig:Figure_1). In the past 10 years, the number of marriage license issued by each civic centre did not differ across years. The TO centre issued more than nearly 600 marriage licenses on average per year, with other centres holding a significantly smaller level.
+(table \@ref(tab:Table_1))
 
-From figure \@ref(fig:Figure_2). Four civic centres all reported that July and August were the most popular months for couples to register marriage. Couples might be less enthusiastic to get marriage licenses in the winter time.  
+The table illustrates four civic centres had remarkable differences in the number of marriage license. Compared with other centres, TO centre was relatively more busier. 
+
+From 
+
+(figure \@ref(fig:Figure_1)) 
+
+In the past 10 years, the number of marriage license issued by each civic centre did not differ across years. The TO centre issued more than nearly 600 marriage licenses on average per year, with other centres holding a significantly smaller level.
+
+From 
+
+(figure \@ref(fig:Figure_2))
+
+Four civic centres all reported that July and August were the most popular months for couples to register marriage. Couples might be less enthusiastic to get marriage licenses in the winter time.  
 
 # Discussion
 
