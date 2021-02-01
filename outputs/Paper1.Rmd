@@ -7,6 +7,7 @@ date: "2021/1/28"
 abstract: "This study aims to compare the number of issued marriage licenses in each civic centre of city of Toronto.I get the data from opendatatoronto[@datasource]. After the analysis, I find the result showed couples in city of Toronto preferred to registor for their marriage in the summer time. My findings can back up the city's operational requirements and guide some business functions, to meet the intentions of the publisher for this data set."
 output:
   bookdown::pdf_document2:
+    keep_tex: true
 toc: False
 bibliography: references.bib
 ---
@@ -29,7 +30,7 @@ library(kableExtra)
 # Introduction
 A marriage license is a legal document obtained by a couple prior to their marriage[@Define]. For nearly all couples, it is absolutely a big day when they legally registered their marriage, after which they will consider holding their ceremony and the wedding. As a result, the choice of the registered date must be extremely significant and seriously considered, which will usually be memorized and celebrated every year. Each couple usually have their unique option to set the date, for example, some of them prefer to register their marriage in one of their birthdays. 
 
-However, I am curious with do they have a general preference on the season to register for their marriage? If so, what factors drive that season become popular? According to [@Popular], we assume summertime should be the most popular months, as the report has turned out most of couples are more likely to hold their weddings in the fall. 
+However, I am curious with do they have a general preference on the season to register for their marriage? If so, what factors drive that season become popular? According to [@Popular], I assume summertime should be the most popular months, as the report has turned out most of couples are more likely to hold their weddings in the fall. 
 
 I believe my findings can give some insightful implications for the future work in civic centres. Based on that, centres can adjust their internal operation plans in different months, to either satisfy the need of registering marriage licenses or avoid the waste of workforce.
 
@@ -42,19 +43,15 @@ This study will perform an analysis of data from [@datasource], which is monthly
 The limited ranges of civic centres may cause bias that the data may hardly represent the population(All couples in the city of Toronto), it might only reflect a small group's preferences on the choice of time to register for their marriage. 
 
 ```{r, include=FALSE}
-raw_data <- readr::read_csv("D:/MI/2178/Paper1/First_Paper/inputs/raw_data.csv") #Read the raw data, which has been tidied in my r script.
+raw_data <- readr::read_csv(here::here("inputs/raw_data.csv")) #Read the raw data, which has been tidied in my r script.
 ```
 
 
 ## Average issued marriage licenses in each civic centre
 
-Table 
+Table \@ref(tab:Table1) compares the number of marriage licenses among four civic centres. 
 
-\@ref(tab:Table_1)
-
-is used by dplyr package [@dplyr], it compares the number of marriage licenses among four civic centres. 
-
-```{r Table_1, echo=FALSE, message= FALSE}
+```{r Table1, echo=FALSE, message= FALSE}
 # Separate the data set with types of civic centre
 Df_kable<- raw_data %>%
   group_by(CIVIC_CENTRE) %>%
@@ -72,13 +69,9 @@ Df_kable
 
 ## Yearly change of average issued marriage licenses in each civic centre, from 2011 to 2021.
 
-See 
+See Figure \@ref(fig:Figure1), which is built on ggplot2 package [@ggplot]. The graph shows the relationships among year, civic centres and the number of marriage licenses in the data set. 
 
-(Figure \@ref(fig:Figure_1))
-
-which is built on ggplot2 package [@ggplot]. The graph shows the relationships among year, civic centres and the number of marriage licenses in the data set. 
-
-```{r Figure_1, fig.cap="Yearly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
+```{r Figure1, fig.cap="Yearly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
 # Prepare the dataframe for visualization
 Df_fig_1<- raw_data %>%
   group_by(CIVIC_CENTRE, year) %>%
@@ -100,15 +93,12 @@ p1<- ggplot(data= as.data.frame(Df_fig_1),
 p1
 ```
 
+
 ## Monthly change of average issued marriage licenses in each civic centre, from 2011 to 2021.
 
-Let's move to
+Let's move to Figure \@ref(fig:Figure2), which is built on ggplot2 package [@ggplot]. It analyzes whether the number of issued marriage licenses differed across different months, from 2011 to 2021.
 
-(Figure \@ref(tab:Figure_2)) 
-
-which is drawn by using ggplot2 package [@ggplot]. It analyzes whether the number of issued marriage licenses differed across different months, from 2011 to 2021.
-
-```{r Figure_2, fig.cap="\\label{fig:Figure_2}Monthly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
+```{r Figure2, fig.cap="Monthly change", echo=FALSE, warning=FALSE, fig.height=4, fig.width=8, message=FALSE}
 #Explore the most popular months people choose to register for marriage licenses
 Df_Month<- raw_data %>%
   group_by(CIVIC_CENTRE, month) %>%
@@ -121,31 +111,21 @@ p2<- ggplot(data= as.data.frame(Df_Month))+
   labs(x= "Month",
        y= "Average number of marriage licenses",
        fill="Civic centre",
-       title = "Monthly change of average number of marriage licenses issued in each civic centre",
-       caption = "Source: opendatatoronto.")
+       title = "Monthly change of the average number of marriage licenses",
+       caption = "Source2: opendatatoronto."
+  )
 
 p2
 ```
+\newpage
 
 # Result
 
-From 
+From (Table \@ref(tab:Table1)). The table illustrates four civic centres had remarkable differences in the number of marriage license. Compared with other centres, TO centre was relatively more busier. 
 
-(table \@ref(tab:Table_1))
+From (Figure \@ref(fig:Figure1)). In the past 10 years, the number of marriage license issued by each civic centre did not differ across years. The TO centre issued more than nearly 600 marriage licenses on average per year, with other centres holding a significantly smaller level.
 
-The table illustrates four civic centres had remarkable differences in the number of marriage license. Compared with other centres, TO centre was relatively more busier. 
-
-From 
-
-(figure \@ref(fig:Figure_1)) 
-
-In the past 10 years, the number of marriage license issued by each civic centre did not differ across years. The TO centre issued more than nearly 600 marriage licenses on average per year, with other centres holding a significantly smaller level.
-
-From 
-
-(figure \@ref(fig:Figure_2))
-
-Four civic centres all reported that July and August were the most popular months for couples to register marriage. Couples might be less enthusiastic to get marriage licenses in the winter time.  
+From (Figure \@ref(fig:Figure2)). Four civic centres all reported that July and August were the most popular months for couples to register marriage in the past ten years. Couples might be less enthusiastic to get marriage licenses in the winter time.  
 
 # Discussion
 
